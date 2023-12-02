@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import jsonData from './data.json'
+// import jsonData from './data.json'
 import Card from './components/Card'
 import Search from './components/Search'
 import BlueArrow from './assets/blue-arrow.svg'
@@ -10,7 +10,7 @@ import { handleCardSelection } from './utils/utils'
 import { Item } from './types/types'
 
 function App() {
-  const [items] = useState(jsonData.washingMachines)
+  const [items, setItems] = useState([])
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [sortBy, setSortBy] = useState<string>('Popularność')
   const [energyClassFilter, setEnergyClassFilter] =
@@ -22,42 +22,63 @@ function App() {
   const [cardSelections, setCardSelections] = useState<Record<string, boolean>>(
     {},
   )
+
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await fetch(
+          'https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=WW90T986ASH/S6,WW90T534DAE/S6,DV90T6240LH/S6,WD8NK52E0ZW/EO,DV90T8240SX/S6,WD8NK52E0ZX/EO,WW90T954ASH/S6,DV90BB7445GES6,WW80TA026AE/EO,WW80T654DLH/S6,WW80T954ASH/S6&commonCodeYN=N&saleSkuYN=N&onlyRequestSkuYN=N&keySummaryYN=Y&shopSiteCode=pl',
+        )
+        const data = await response.json()
+        const { productList } = data.response.resultData
+        console.log(productList[0].chipOptions[1].optionList[0].optionCode)
+        setItems(productList)
+      } catch (err) {
+        console.log(err.message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    getData()
+  }, [])
   const [showAllItems, setShowAllItems] = useState<boolean>(false)
 
   const itemsToShowInitially = 6
 
   const filteredAndSortedItems = items
     .filter((item) => {
-      const matchesSearchTerm = item.name.toLowerCase().includes(searchTerm)
+      const matchesSearchTerm = item.modelList[0].displayName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
 
       const matchesEnergyClass =
         energyClassFilter === 'Pokaż wszystkie' ||
-        item.energyClass === energyClassFilter
+        item.modelList[0].energyLabelGrade === energyClassFilter
 
-      const matchesCapacity =
-        capacityFilter === 'Pokaż wszystkie' ||
-        item.capacity.toString() === capacityFilter
+      // const matchesCapacity =
+      //   capacityFilter === 'Pokaż wszystkie' ||
+      //   item.capacity.toString() === capacityFilter
 
-      const matchesFunctions =
-        functionsFilter === 'Pokaż wszystkie' ||
-        item.productFunctions.some((func) =>
-          func.toLocaleLowerCase().includes(functionsFilter.toLowerCase()),
-        )
+      // const matchesFunctions =
+      //   functionsFilter === 'Pokaż wszystkie' ||
+      //   item.productFunctions.some((func) =>
+      //     func.toLocaleLowerCase().includes(functionsFilter.toLowerCase()),
+      //   )
 
-      return (
-        matchesSearchTerm &&
-        matchesEnergyClass &&
-        matchesCapacity &&
-        matchesFunctions
-      )
+      return matchesSearchTerm && matchesEnergyClass
+      // &&
+      // matchesCapacity &&
+      // matchesFunctions
     })
     .sort((a: Item, b: Item) => {
       if (sortBy === 'Cena rosnąco') {
-        return a.price - b.price
+        return +a.modelList[0].price - +b.modelList[0].price
       } else if (sortBy === 'Cena malejąco') {
-        return b.price - a.price
+        return +b.modelList[0].price - +a.modelList[0].price
       } else if (sortBy === 'Popularność') {
-        return b.popularity - a.popularity
+        return +b.modelList[0].ratings - +a.modelList[0].ratings
       }
       return 0
     })
@@ -66,21 +87,21 @@ function App() {
   const energyClassOptions = [
     'Pokaż wszystkie',
     ...new Set(
-      filteredAndSortedItems.map((item) => item.energyClass.toUpperCase()),
+      filteredAndSortedItems.map((item) => item.modelList[0].energyLabelGrade),
     ),
   ]
 
   // Generate capacity options based on filtered data
-  const capacityOptions = [
-    'Pokaż wszystkie',
-    ...new Set(filteredAndSortedItems.map((item) => item.capacity.toString())),
-  ]
+  // const capacityOptions = [
+  //   'Pokaż wszystkie',
+  //   ...new Set(filteredAndSortedItems.map((item) => item.capacity.toString())),
+  // ]
 
   // Generate product functions options based on filtered data
-  const functionsOptions = [
-    'Pokaż wszystkie',
-    ...new Set(filteredAndSortedItems.flatMap((item) => item.productFunctions)),
-  ]
+  // const functionsOptions = [
+  //   'Pokaż wszystkie',
+  //   ...new Set(filteredAndSortedItems.flatMap((item) => item.productFunctions)),
+  // ]
 
   useEffect(() => {
     // Reset  filters when items or searchTerm change
@@ -108,24 +129,24 @@ function App() {
               label="Sortuj po:"
               options={sortByOptions}
             />
-            <Filter
+            {/* <Filter
               state={functionsFilter}
               setState={setFunctionsFilter}
               label="Funkcje:"
               options={functionsOptions}
-            />
+            /> */}
             <Filter
               state={energyClassFilter}
               setState={setEnergyClassFilter}
               label="Klasa energetyczna:"
               options={energyClassOptions}
             />
-            <Filter
+            {/* <Filter
               state={capacityFilter}
               setState={setCapacityFilter}
               label="Pojemność:"
               options={capacityOptions}
-            />
+            /> */}
           </div>
           <p className="mt-[10px]">
             Liczba wyników: {filteredAndSortedItems.length}{' '}
@@ -136,7 +157,7 @@ function App() {
           <div className=" py-6 flex flex-col items-center">
             {items.length > 0 && (
               <div className="flex flex-wrap gap-4 mb-[20px] justify-center lg:justify-start">
-                {filteredAndSortedItems
+                {/* {filteredAndSortedItems
                   .slice(0, showAllItems ? undefined : itemsToShowInitially)
                   .map((item) => (
                     <Card
@@ -147,17 +168,35 @@ function App() {
                       }
                       selected={cardSelections[item.sku]}
                     />
+                  ))} */}
+                {filteredAndSortedItems
+                  .slice(0, showAllItems ? undefined : itemsToShowInitially)
+                  .map((item) => (
+                    <Card
+                      {...item}
+                      key={item.familyId}
+                      name={item.modelList[0].displayName}
+                      energyClass={item.modelList[0].energyLabelGrade}
+                      img={item.modelList[0].thumbUrl}
+                      price={item.modelList[0].price}
+                      capacity={item.chipOptions[1]?.optionList[0].optionCode}
+                      onClick={() =>
+                        handleCardSelection(item.familyId, setCardSelections)
+                      }
+                      selected={cardSelections[item.familyId]}
+                    />
                   ))}
               </div>
             )}
-            {!showAllItems && (
-              <button
-                className="mb-[54px] text-custom-text-blue font-bold flex items-center gap-[9px]"
-                onClick={handleShowMore}>
-                <span>Pokaż więcej</span>
-                <img src={BlueArrow} alt="" />
-              </button>
-            )}
+            {!showAllItems &&
+              filteredAndSortedItems.length > itemsToShowInitially && (
+                <button
+                  className="mb-[54px] text-custom-text-blue font-bold flex items-center gap-[9px]"
+                  onClick={handleShowMore}>
+                  <span>Pokaż więcej</span>
+                  <img src={BlueArrow} alt="" />
+                </button>
+              )}
           </div>
         </main>
       </div>

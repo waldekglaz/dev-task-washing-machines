@@ -9,7 +9,6 @@ function Card({
   productFunctions,
   img,
   energyClass,
-  promoDates,
   price,
   onClick,
   selected,
@@ -23,7 +22,7 @@ function Card({
           <p className="text-custom-text-grey">
             Pojemność (kg):{' '}
             <span className="text-black font-bold">
-              {capacity.slice(0, -2)}
+              {/* {capacity.slice(0, -2)} */}
             </span>
           </p>
           <p>
@@ -31,13 +30,13 @@ function Card({
           </p>
           <p className="mb-[14px]">
             Funkcje:{' '}
-            {productFunctions.map((func) => {
+            {/* {productFunctions.map((func) => {
               return (
                 <span>
                   <span className="text-black font-bold">{func} </span>,
                 </span>
               )
-            })}
+            })} */}
           </p>
           <div className="flex items-center mb-[14px]">
             Klasa energetyczna{' '}
@@ -48,7 +47,7 @@ function Card({
               </span>
             </span>
           </div>
-          <p>Cena obowiązuje:{promoDates}</p>
+          <p>Cena obowiązuje: 15.09.2022 - 21.09.2022</p>
           <div className="flex items-center text-4xl font-bold">
             {price}
             <div className="flex flex-col text-sm">
