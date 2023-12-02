@@ -34,6 +34,7 @@ function App() {
     } else if (sortBy === 'Popularność') {
       return b.popularity - a.popularity
     }
+    return 0
   })
 
   const filteredAndSortedItems = sortedItems.filter((item) => {
