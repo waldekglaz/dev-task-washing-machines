@@ -10,7 +10,7 @@ import { handleCardSelection } from './utils/utils'
 import { Item } from './types/types'
 
 function App() {
-  const [items, setItems] = useState(jsonData.washingMachines)
+  const [items] = useState(jsonData.washingMachines)
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [sortBy, setSortBy] = useState<string>('Popularność')
   const [energyClassFilter, setEnergyClassFilter] =
@@ -26,41 +26,41 @@ function App() {
 
   const itemsToShowInitially = 6
 
-  const sortedItems = [...items].sort((a: Item, b: Item) => {
-    if (sortBy === 'Cena rosnąco') {
-      return a.price - b.price
-    } else if (sortBy === 'Cena malejąco') {
-      return b.price - a.price
-    } else if (sortBy === 'Popularność') {
-      return b.popularity - a.popularity
-    }
-    return 0
-  })
+  const filteredAndSortedItems = items
+    .filter((item) => {
+      const matchesSearchTerm = item.name.toLowerCase().includes(searchTerm)
 
-  const filteredAndSortedItems = sortedItems.filter((item) => {
-    const matchesSearchTerm = item.name.toLowerCase().includes(searchTerm)
+      const matchesEnergyClass =
+        energyClassFilter === 'Pokaż wszystkie' ||
+        item.energyClass === energyClassFilter
 
-    const matchesEnergyClass =
-      energyClassFilter === 'Pokaż wszystkie' ||
-      item.energyClass === energyClassFilter
+      const matchesCapacity =
+        capacityFilter === 'Pokaż wszystkie' ||
+        item.capacity.toString() === capacityFilter
 
-    const matchesCapacity =
-      capacityFilter === 'Pokaż wszystkie' ||
-      item.capacity.toString() === capacityFilter
+      const matchesFunctions =
+        functionsFilter === 'Pokaż wszystkie' ||
+        item.productFunctions.some((func) =>
+          func.toLocaleLowerCase().includes(functionsFilter.toLowerCase()),
+        )
 
-    const matchesFunctions =
-      functionsFilter === 'Pokaż wszystkie' ||
-      item.productFunctions.some((func) =>
-        func.toLocaleLowerCase().includes(functionsFilter.toLowerCase()),
+      return (
+        matchesSearchTerm &&
+        matchesEnergyClass &&
+        matchesCapacity &&
+        matchesFunctions
       )
-
-    return (
-      matchesSearchTerm &&
-      matchesEnergyClass &&
-      matchesCapacity &&
-      matchesFunctions
-    )
-  })
+    })
+    .sort((a: Item, b: Item) => {
+      if (sortBy === 'Cena rosnąco') {
+        return a.price - b.price
+      } else if (sortBy === 'Cena malejąco') {
+        return b.price - a.price
+      } else if (sortBy === 'Popularność') {
+        return b.popularity - a.popularity
+      }
+      return 0
+    })
 
   // Generate energy class options based on filtered data
   const energyClassOptions = [
