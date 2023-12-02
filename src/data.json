@@ -1,0 +1,383 @@
+{
+  "washingMachines": [
+    {
+      "name": "WW90T754ABT, Pralka QuickDrive™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 2199,
+      "sku": "WW90T754ABA",
+      "img": "./assets/wash-mashine-1.png",
+      "popularity": 450
+    },
+    {
+      "name": "WW10T654DLH, Pralka EcoBubble™, 10,5 kg, biała",
+      "capacity": "10.5 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "B",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 1999,
+      "sku": "WW90T754ABB",
+      "img": "./assets/wash-mashine-2.png",
+      "popularity": 1450
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "C",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3399,
+      "sku": "WW90T754ABC",
+      "img": "./assets/wash-mashine-3.png",
+      "popularity": 490
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "D",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3099,
+      "sku": "WW90T754ABD",
+      "img": "./assets/wash-mashine-4.png",
+      "popularity": 760
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "E",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3199,
+      "sku": "WW90T754ABE",
+      "img": "./assets/wash-mashine-5.png",
+      "popularity": 999
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3199,
+      "sku": "WW90T754ABF",
+      "img": "./assets/wash-mashine-6.png",
+      "popularity": 150
+    },
+    {
+      "name": "WW90T654DLI, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 2499,
+      "sku": "WW90T754ABG",
+      "img": "./assets/wash-mashine-6.png",
+      "popularity": 363
+    },
+    {
+      "name": "WW90T654ABH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "B",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 1399,
+      "sku": "WW90T754ABH",
+      "img": "./assets/wash-mashine-6.png",
+      "popularity": 1633
+    },
+    {
+      "name": "WW90T754ABT, Pralka QuickDrive™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "C",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 2499,
+      "sku": "WW90T754ABI",
+      "img": "./assets/wash-mashine-1.png",
+      "popularity": 250
+    },
+    {
+      "name": "WW10T654DLH, Pralka EcoBubble™, 10,5 kg, biała",
+      "capacity": "10.5 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 999,
+      "sku": "WW90T754ABJ",
+      "img": "./assets/wash-mashine-2.png",
+      "popularity": 1750
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "C",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3399,
+      "sku": "WW90T754ABK",
+      "img": "./assets/wash-mashine-3.png",
+      "popularity": 490
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": ["Panel AI Control", "Wyświetlacz elektroniczny"],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3099,
+      "sku": "WW90T754ABL",
+      "img": "./assets/wash-mashine-4.png",
+      "popularity": 760
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "E",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3199,
+      "sku": "WW90T754ABM",
+      "img": "./assets/wash-mashine-5.png",
+      "popularity": 999
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "10 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3099,
+      "sku": "WW90T754ABN",
+      "img": "./assets/wash-mashine-6.png",
+      "popularity": 150
+    },
+    {
+      "name": "WW90T654DLI, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "10.5 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "B",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 2099,
+      "sku": "WW90T754ABO",
+      "img": "./assets/wash-mashine-6.png",
+      "popularity": 333
+    },
+    {
+      "name": "WW90T654ABH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "F",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 299,
+      "sku": "WW90T754ABP",
+      "img": "./assets/wash-mashine-6.png",
+      "popularity": 1333
+    },
+    {
+      "name": "WW90T754ABT, Pralka QuickDrive™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 2199,
+      "sku": "WW90T754ABT",
+      "img": "./assets/wash-mashine-1.png",
+      "popularity": 455
+    },
+    {
+      "name": "WW10T654DLH, Pralka EcoBubble™, 10,5 kg, biała",
+      "capacity": "10.5 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 2999,
+      "sku": "WW90T754ABR",
+      "img": "./assets/wash-mashine-2.png",
+      "popularity": 1759
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "C",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3399,
+      "sku": "WW90T754ABS",
+      "img": "./assets/wash-mashine-3.png",
+      "popularity": 490
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "D",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3099,
+      "sku": "WW90T754ABW",
+      "img": "./assets/wash-mashine-4.png",
+      "popularity": 760
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "E",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3199,
+      "sku": "WW90T754ABV",
+      "img": "./assets/wash-mashine-5.png",
+      "popularity": 999
+    },
+    {
+      "name": "WW90T654DLH, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "A",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 3199,
+      "sku": "WW90T754ABX",
+      "img": "./assets/wash-mashine-6.png",
+      "popularity": 150
+    },
+    {
+      "name": "WW90T654DLI, Pralka EcoBubble™, 9 kg, biała",
+      "capacity": "9 kg",
+      "dimentions": "55 x 60 x 85",
+      "productFunctions": [
+        "Drzwi AddWash™",
+        "Panel AI Control",
+        "Silnik inwerterowy",
+        "Wyświetlacz elektroniczny"
+      ],
+      "energyClass": "B",
+      "promoDates": "15.09.2022 - 21.09.2022",
+      "price": 2099,
+      "sku": "WW90T754ABY",
+      "img": "./assets/wash-mashine-1.png",
+      "popularity": 333
+    }
+  ]
+}
