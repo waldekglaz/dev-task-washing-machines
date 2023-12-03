@@ -6,7 +6,7 @@ import BlueArrow from './assets/blue-arrow.svg'
 import Filter from './components/Filter'
 import { SORT_BY_OPTIONS } from './utils/constants'
 import { handleCardSelection, extractOptions, generateUrl } from './utils/utils'
-import { Item } from './types/types'
+import { Item, FetchError } from './types/types'
 import { PRODUCT_SKU, ITEMS_TO_SHOW } from './utils/constants'
 import { RotatingLines } from 'react-loader-spinner'
 
@@ -25,7 +25,7 @@ function App() {
   )
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | undefined>(undefined)
 
   useEffect(() => {
     const url = generateUrl(PRODUCT_SKU)
@@ -36,11 +36,15 @@ function App() {
           throw new Error('Something wrong happened with HTTP request')
         const data = await response.json()
         const { productList } = data.response.resultData
-        console.log(productList[0].modelList[0].keySummary)
+
         setItems(productList)
       } catch (err) {
-        console.log(err, 'error')
-        setError(err.message)
+        if (err instanceof FetchError) {
+          setError(err.message)
+        } else {
+          setError('An unexpected error occurred.')
+        }
+
         setItems([])
         setIsLoading(false)
       } finally {
@@ -120,7 +124,6 @@ function App() {
   ]
 
   useEffect(() => {
-    // Reset  filters when items or searchTerm change
     setEnergyClassFilter('Pokaż wszystkie')
     setCapacityFilter('Pokaż wszystkie')
     setFunctionsFilter('Pokaż wszystkie')
