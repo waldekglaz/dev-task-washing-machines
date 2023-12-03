@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-// import jsonData from './data.json'
 import Card from './components/Card'
 import Search from './components/Search'
 import BlueArrow from './assets/blue-arrow.svg'
@@ -8,6 +7,7 @@ import Filter from './components/Filter'
 import { sortByOptions } from './utils/constants'
 import { handleCardSelection } from './utils/utils'
 import { Item } from './types/types'
+import { productSKU } from './utils/constants'
 
 function App() {
   const [items, setItems] = useState([])
@@ -25,12 +25,15 @@ function App() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
+  const BASE_URL = `https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=${productSKU.join(
+    ',',
+  )}&commonCodeYN=N&saleSkuYN=N&onlyRequestSkuYN=N&keySummaryYN=Y&shopSiteCode=pl`
+
   useEffect(() => {
     const getData = async () => {
+      setIsLoading(true)
       try {
-        const response = await fetch(
-          'https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=WW90T986ASH/S6,WW90T534DAE/S6,DV90T6240LH/S6,WD8NK52E0ZW/EO,DV90T8240SX/S6,WD8NK52E0ZX/EO,WW90T954ASH/S6,DV90BB7445GES6,WW80TA026AE/EO,WW80T654DLH/S6,WW80T954ASH/S6&commonCodeYN=N&saleSkuYN=N&onlyRequestSkuYN=N&keySummaryYN=Y&shopSiteCode=pl',
-        )
+        const response = await fetch(BASE_URL)
         const data = await response.json()
         const { productList } = data.response.resultData
         console.log(productList[0].chipOptions[1].optionList[0].optionCode)
