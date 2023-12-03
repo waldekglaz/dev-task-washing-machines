@@ -36,7 +36,10 @@ function App() {
         const response = await fetch(BASE_URL)
         const data = await response.json()
         const { productList } = data.response.resultData
-        console.log(productList[0].chipOptions[1].optionList[0].optionCode)
+        console.log(
+          productList[0].chipOptions[1].optionList[0].optionCode,
+          'from',
+        )
         setItems(productList)
       } catch (err) {
         console.log(err.message)
@@ -45,7 +48,7 @@ function App() {
       }
     }
     getData()
-  }, [])
+  }, [BASE_URL])
   const [showAllItems, setShowAllItems] = useState<boolean>(false)
 
   const itemsToShowInitially = 6
@@ -182,7 +185,7 @@ function App() {
                       energyClass={item.modelList[0].energyLabelGrade}
                       img={item.modelList[0].thumbUrl}
                       price={item.modelList[0].price}
-                      capacity={item.chipOptions[1]?.optionList[0].optionCode}
+                      capacity={item?.chipOptions[1]?.optionList[0]?.optionCode}
                       onClick={() =>
                         handleCardSelection(item.familyId, setCardSelections)
                       }

@@ -21,9 +21,7 @@ function Card({
         <div className="text-xs">
           <p className="text-custom-text-grey">
             Pojemność (kg):{' '}
-            <span className="text-black font-bold">
-              {/* {capacity.slice(0, -2)} */}
-            </span>
+            <span className="text-black font-bold">{capacity.slice(0, 1)}</span>
           </p>
           <p>
             Wymiary (GxSxW): <span className="font-bold">{dimentions}</span>
