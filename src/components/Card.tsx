@@ -31,8 +31,8 @@ function Card({
             Funkcje:{' '}
             {extractOptions(productFunctions).map((item) => {
               return (
-                <span>
-                  <span className="text-black font-bold">{item} </span>,
+                <span className="text-black font-bold" key={item}>
+                  {item},{' '}
                 </span>
               )
             })}

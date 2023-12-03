@@ -4,10 +4,10 @@ import Card from './components/Card'
 import Search from './components/Search'
 import BlueArrow from './assets/blue-arrow.svg'
 import Filter from './components/Filter'
-import { sortByOptions } from './utils/constants'
+import { SORT_BY_OPTIONS } from './utils/constants'
 import { handleCardSelection, extractOptions } from './utils/utils'
 import { Item } from './types/types'
-import { productSKU } from './utils/constants'
+import { PRODUCT_SKU, ITEMS_TO_SHOW } from './utils/constants'
 import { RotatingLines } from 'react-loader-spinner'
 
 function App() {
@@ -27,13 +27,12 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState(null)
 
-  const BASE_URL = `https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=${productSKU.join(
+  const BASE_URL = `https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=${PRODUCT_SKU.join(
     ',',
   )}&commonCodeYN=N&saleSkuYN=N&onlyRequestSkuYN=N&keySummaryYN=Y&shopSiteCode=pl`
 
   useEffect(() => {
     const getData = async () => {
-      setIsLoading(true)
       try {
         const response = await fetch(BASE_URL)
         if (!response.ok)
@@ -52,8 +51,6 @@ function App() {
     getData()
   }, [BASE_URL])
   const [showAllItems, setShowAllItems] = useState<boolean>(false)
-
-  const itemsToShowInitially = 6
 
   const filteredAndSortedItems = items
     .filter((item) => {
@@ -145,7 +142,7 @@ function App() {
               state={sortBy}
               setState={setSortBy}
               label="Sortuj po:"
-              options={sortByOptions}
+              options={SORT_BY_OPTIONS}
             />
             <Filter
               state={functionsFilter}
@@ -176,7 +173,7 @@ function App() {
             {filteredAndSortedItems.length > 0 ? (
               <div className="flex flex-wrap gap-4 mb-[20px] justify-center lg:justify-start">
                 {filteredAndSortedItems
-                  .slice(0, showAllItems ? undefined : itemsToShowInitially)
+                  .slice(0, showAllItems ? undefined : ITEMS_TO_SHOW)
                   .map((item) => (
                     <Card
                       {...item}
@@ -207,15 +204,14 @@ function App() {
               />
             )}
             {error && <p>Something went wrong!</p>}
-            {!showAllItems &&
-              filteredAndSortedItems.length > itemsToShowInitially && (
-                <button
-                  className="mb-[54px] text-custom-text-blue font-bold flex items-center gap-[9px]"
-                  onClick={handleShowMore}>
-                  <span>Pokaż więcej</span>
-                  <img src={BlueArrow} alt="" />
-                </button>
-              )}
+            {!showAllItems && filteredAndSortedItems.length > ITEMS_TO_SHOW && (
+              <button
+                className="mb-[54px] text-custom-text-blue font-bold flex items-center gap-[9px]"
+                onClick={handleShowMore}>
+                <span>Pokaż więcej</span>
+                <img src={BlueArrow} alt="" />
+              </button>
+            )}
           </div>
         </main>
       </div>

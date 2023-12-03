@@ -11,7 +11,9 @@ function Filter({ state, setState, label, options }: FilterProps) {
         onChange={(e) => setState(e.target.value)}
         className="px-[12px] py-2 appearance-none">
         {options.map((option) => (
-          <option value={option}>{option}</option>
+          <option key={option} value={option}>
+            {option}
+          </option>
         ))}
       </select>
     </div>
