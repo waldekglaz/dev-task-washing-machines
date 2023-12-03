@@ -6,7 +6,7 @@ export interface Item {
     thumbUrl: string
     price: number
     ratings: number
-    keySummary: string[]
+    keySummary: OptionsArray[]
   }[]
   chipOptions: {
     optionList: {
@@ -18,7 +18,7 @@ export interface Item {
 export interface CardProps {
   name: string
   capacity: string
-  productFunctions: string[]
+  productFunctions: OptionsArray[]
   img: string
   energyClass: string
   price: number
@@ -38,4 +38,11 @@ export interface Options {
 
 export interface OptionsArray {
   title: string
+  displayType: string
+  imgAlt: string
+  imgUrl: string
+  key?: null
+  style?: null
+  unit?: null
+  value?: null
 }

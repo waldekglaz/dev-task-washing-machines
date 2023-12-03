@@ -36,8 +36,9 @@ function App() {
           throw new Error('Something wrong happened with HTTP request')
         const data = await response.json()
         const { productList } = data.response.resultData
+        console.log(productList[0].modelList[0].keySummary)
         setItems(productList)
-      } catch (err: any) {
+      } catch (err) {
         console.log(err, 'error')
         setError(err.message)
         setItems([])
