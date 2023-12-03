@@ -8,6 +8,7 @@ import { sortByOptions } from './utils/constants'
 import { handleCardSelection, extractOptions } from './utils/utils'
 import { Item } from './types/types'
 import { productSKU } from './utils/constants'
+import { RotatingLines } from 'react-loader-spinner'
 
 function App() {
   const [items, setItems] = useState([])
@@ -24,6 +25,7 @@ function App() {
   )
 
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [error, setError] = useState(null)
 
   const BASE_URL = `https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=${productSKU.join(
     ',',
@@ -34,12 +36,15 @@ function App() {
       setIsLoading(true)
       try {
         const response = await fetch(BASE_URL)
+        if (!response.ok)
+          throw new Error('Something wrong happened with HTTP request')
         const data = await response.json()
         const { productList } = data.response.resultData
         setItems(productList)
       } catch (err) {
-        console.log(err.message)
+        setError(err.message)
         setItems([])
+        setIsLoading(false)
       } finally {
         setIsLoading(false)
       }
@@ -168,7 +173,7 @@ function App() {
 
         <main>
           <div className=" py-6 flex flex-col items-center">
-            {items.length > 0 && (
+            {filteredAndSortedItems.length > 0 ? (
               <div className="flex flex-wrap gap-4 mb-[20px] justify-center lg:justify-start">
                 {filteredAndSortedItems
                   .slice(0, showAllItems ? undefined : itemsToShowInitially)
@@ -189,8 +194,19 @@ function App() {
                     />
                   ))}
               </div>
+            ) : (
+              <h2>Sorry, there is no results</h2>
             )}
-            {isLoading && <p>loading...</p>}
+            {isLoading && (
+              <RotatingLines
+                strokeColor="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="96"
+                visible={true}
+              />
+            )}
+            {error && <p>Something went wrong!</p>}
             {!showAllItems &&
               filteredAndSortedItems.length > itemsToShowInitially && (
                 <button
