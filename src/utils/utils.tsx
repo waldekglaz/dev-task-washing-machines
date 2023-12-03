@@ -1,3 +1,5 @@
+import { Options } from '../types/types'
+
 export function calculateInstallments(price: number, months: number): string {
   const result = price / months
   return result.toFixed(2)
@@ -20,7 +22,7 @@ export function handleCardSelection(
   })
 }
 
-export function extractOptions(arr) {
+export function extractOptions(arr: Options[]): string[] {
   const newArray = []
 
   for (let i = 0; i < arr.length; i++) {

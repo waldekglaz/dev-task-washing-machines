@@ -31,3 +31,6 @@ export interface FilterProps {
   label: string
   options: string[]
 }
+export interface Options {
+  title: string
+}
