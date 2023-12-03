@@ -5,7 +5,7 @@ import Search from './components/Search'
 import BlueArrow from './assets/blue-arrow.svg'
 import Filter from './components/Filter'
 import { SORT_BY_OPTIONS } from './utils/constants'
-import { handleCardSelection, extractOptions } from './utils/utils'
+import { handleCardSelection, extractOptions, generateUrl } from './utils/utils'
 import { Item } from './types/types'
 import { PRODUCT_SKU, ITEMS_TO_SHOW } from './utils/constants'
 import { RotatingLines } from 'react-loader-spinner'
@@ -27,20 +27,18 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [error, setError] = useState(null)
 
-  const BASE_URL = `https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=${PRODUCT_SKU.join(
-    ',',
-  )}&commonCodeYN=N&saleSkuYN=N&onlyRequestSkuYN=N&keySummaryYN=Y&shopSiteCode=pl`
-
   useEffect(() => {
+    const url = generateUrl(PRODUCT_SKU)
     const getData = async () => {
       try {
-        const response = await fetch(BASE_URL)
+        const response = await fetch(url)
         if (!response.ok)
           throw new Error('Something wrong happened with HTTP request')
         const data = await response.json()
         const { productList } = data.response.resultData
         setItems(productList)
-      } catch (err) {
+      } catch (err: any) {
+        console.log(err, 'error')
         setError(err.message)
         setItems([])
         setIsLoading(false)
@@ -49,11 +47,11 @@ function App() {
       }
     }
     getData()
-  }, [BASE_URL])
+  }, [])
   const [showAllItems, setShowAllItems] = useState<boolean>(false)
 
   const filteredAndSortedItems = items
-    .filter((item) => {
+    .filter((item: Item) => {
       const matchesSearchTerm = item.modelList[0].displayName
         .toLowerCase()
         .includes(searchTerm.toLowerCase())
@@ -94,7 +92,9 @@ function App() {
   const energyClassOptions = [
     'Pokaż wszystkie',
     ...new Set(
-      filteredAndSortedItems.map((item) => item.modelList[0].energyLabelGrade),
+      filteredAndSortedItems.map(
+        (item: Item) => item.modelList[0].energyLabelGrade,
+      ),
     ),
   ]
 
@@ -103,7 +103,7 @@ function App() {
     'Pokaż wszystkie',
     ...new Set(
       filteredAndSortedItems.map(
-        (item) => item.chipOptions[1]?.optionList[0]?.optionCode,
+        (item: Item) => item.chipOptions[1]?.optionList[0]?.optionCode,
       ),
     ),
   ]
@@ -112,7 +112,7 @@ function App() {
   const functionsOptions = [
     'Pokaż wszystkie',
     ...new Set(
-      filteredAndSortedItems.flatMap((item) =>
+      filteredAndSortedItems.flatMap((item: Item) =>
         extractOptions(item.modelList[0].keySummary),
       ),
     ),
@@ -174,7 +174,7 @@ function App() {
               <div className="flex flex-wrap gap-4 mb-[20px] justify-center lg:justify-start">
                 {filteredAndSortedItems
                   .slice(0, showAllItems ? undefined : ITEMS_TO_SHOW)
-                  .map((item) => (
+                  .map((item: Item) => (
                     <Card
                       {...item}
                       key={item.familyId}

@@ -1,4 +1,4 @@
-import { Options } from '../types/types'
+import { OptionsArray } from '../types/types'
 
 export function calculateInstallments(price: number, months: number): string {
   const result = price / months
@@ -22,7 +22,7 @@ export function handleCardSelection(
   })
 }
 
-export function extractOptions(arr: Options[]): string[] {
+export function extractOptions(arr: OptionsArray[]): string[] {
   const newArray = []
 
   for (let i = 0; i < arr.length; i++) {
@@ -35,4 +35,12 @@ export function extractOptions(arr: Options[]): string[] {
     }
   }
   return newArray
+}
+
+export function generateUrl(products: string[]): string {
+  const BASE_URL = `https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=${products.join(
+    ',',
+  )}&commonCodeYN=N&saleSkuYN=N&onlyRequestSkuYN=N&keySummaryYN=Y&shopSiteCode=pl`
+
+  return BASE_URL
 }
