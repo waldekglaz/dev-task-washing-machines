@@ -19,3 +19,18 @@ export function handleCardSelection(
     return updatedSelections
   })
 }
+
+export function extractOptions(arr) {
+  const newArray = []
+
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].title?.includes('-')) {
+      if (arr[i].title === 'Wi-Fi') {
+        newArray.push(arr[i].title)
+      } else {
+        newArray.push(arr[i].title.split('-')[0])
+      }
+    }
+  }
+  return newArray
+}

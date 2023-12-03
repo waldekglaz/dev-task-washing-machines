@@ -36,11 +36,12 @@ function App() {
         const response = await fetch(BASE_URL)
         const data = await response.json()
         const { productList } = data.response.resultData
-        console.log(
-          productList[0].chipOptions[1].optionList[0].optionCode,
-          'from',
-        )
+        // console.log(
+        //   productList[0].chipOptions[1].optionList[0].optionCode,
+        //   'from',
+        // )
         setItems(productList)
+        // console.log(productList[0].modelList[0].keySummary)
       } catch (err) {
         console.log(err.message)
       } finally {
@@ -190,6 +191,7 @@ function App() {
                         handleCardSelection(item.familyId, setCardSelections)
                       }
                       selected={cardSelections[item.familyId]}
+                      productFunctions={item.modelList[0].keySummary}
                     />
                   ))}
               </div>

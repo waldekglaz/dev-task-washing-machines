@@ -1,6 +1,7 @@
 import { calculateInstallments } from '../utils/utils'
 import Label from '../assets/label.svg'
 import { CardProps } from '../types/types'
+import { extractOptions } from '../utils/utils'
 
 function Card({
   name,
@@ -24,17 +25,18 @@ function Card({
             <span className="text-black font-bold">{capacity.slice(0, 1)}</span>
           </p>
           <p>
-            Wymiary (GxSxW): <span className="font-bold">{dimentions}</span>
+            Wymiary (GxSxW): <span className="font-bold">55 x 60 x 85</span>
           </p>
+
           <p className="mb-[14px]">
             Funkcje:{' '}
-            {/* {productFunctions.map((func) => {
+            {extractOptions(productFunctions).map((item) => {
               return (
                 <span>
-                  <span className="text-black font-bold">{func} </span>,
+                  <span className="text-black font-bold">{item} </span>,
                 </span>
               )
-            })} */}
+            })}
           </p>
           <div className="flex items-center mb-[14px]">
             Klasa energetyczna{' '}
