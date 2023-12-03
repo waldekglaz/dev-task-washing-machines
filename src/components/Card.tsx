@@ -5,7 +5,6 @@ import { extractOptions } from '../utils/utils'
 
 function Card({
   name,
-  dimentions,
   capacity,
   productFunctions,
   img,

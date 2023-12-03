@@ -5,7 +5,7 @@ import Search from './components/Search'
 import BlueArrow from './assets/blue-arrow.svg'
 import Filter from './components/Filter'
 import { sortByOptions } from './utils/constants'
-import { handleCardSelection } from './utils/utils'
+import { handleCardSelection, extractOptions } from './utils/utils'
 import { Item } from './types/types'
 import { productSKU } from './utils/constants'
 
@@ -23,7 +23,7 @@ function App() {
     {},
   )
 
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const BASE_URL = `https://searchapi.samsung.com/v6/front/b2c/product/card/detail/newhybris?siteCode=pl&modelList=${productSKU.join(
     ',',
@@ -36,14 +36,10 @@ function App() {
         const response = await fetch(BASE_URL)
         const data = await response.json()
         const { productList } = data.response.resultData
-        // console.log(
-        //   productList[0].chipOptions[1].optionList[0].optionCode,
-        //   'from',
-        // )
         setItems(productList)
-        // console.log(productList[0].modelList[0].keySummary)
       } catch (err) {
         console.log(err.message)
+        setItems([])
       } finally {
         setIsLoading(false)
       }
@@ -64,20 +60,22 @@ function App() {
         energyClassFilter === 'Pokaż wszystkie' ||
         item.modelList[0].energyLabelGrade === energyClassFilter
 
-      // const matchesCapacity =
-      //   capacityFilter === 'Pokaż wszystkie' ||
-      //   item.capacity.toString() === capacityFilter
+      const matchesCapacity =
+        capacityFilter === 'Pokaż wszystkie' ||
+        item.chipOptions[1]?.optionList[0]?.optionCode === capacityFilter
 
-      // const matchesFunctions =
-      //   functionsFilter === 'Pokaż wszystkie' ||
-      //   item.productFunctions.some((func) =>
-      //     func.toLocaleLowerCase().includes(functionsFilter.toLowerCase()),
-      //   )
+      const matchesFunctions =
+        functionsFilter === 'Pokaż wszystkie' ||
+        extractOptions(item.modelList[0].keySummary).some((func) =>
+          func.toLocaleLowerCase().includes(functionsFilter.toLowerCase()),
+        )
 
-      return matchesSearchTerm && matchesEnergyClass
-      // &&
-      // matchesCapacity &&
-      // matchesFunctions
+      return (
+        matchesSearchTerm &&
+        matchesEnergyClass &&
+        matchesCapacity &&
+        matchesFunctions
+      )
     })
     .sort((a: Item, b: Item) => {
       if (sortBy === 'Cena rosnąco') {
@@ -99,16 +97,24 @@ function App() {
   ]
 
   // Generate capacity options based on filtered data
-  // const capacityOptions = [
-  //   'Pokaż wszystkie',
-  //   ...new Set(filteredAndSortedItems.map((item) => item.capacity.toString())),
-  // ]
+  const capacityOptions = [
+    'Pokaż wszystkie',
+    ...new Set(
+      filteredAndSortedItems.map(
+        (item) => item.chipOptions[1]?.optionList[0]?.optionCode,
+      ),
+    ),
+  ]
 
   // Generate product functions options based on filtered data
-  // const functionsOptions = [
-  //   'Pokaż wszystkie',
-  //   ...new Set(filteredAndSortedItems.flatMap((item) => item.productFunctions)),
-  // ]
+  const functionsOptions = [
+    'Pokaż wszystkie',
+    ...new Set(
+      filteredAndSortedItems.flatMap((item) =>
+        extractOptions(item.modelList[0].keySummary),
+      ),
+    ),
+  ]
 
   useEffect(() => {
     // Reset  filters when items or searchTerm change
@@ -136,24 +142,24 @@ function App() {
               label="Sortuj po:"
               options={sortByOptions}
             />
-            {/* <Filter
+            <Filter
               state={functionsFilter}
               setState={setFunctionsFilter}
               label="Funkcje:"
               options={functionsOptions}
-            /> */}
+            />
             <Filter
               state={energyClassFilter}
               setState={setEnergyClassFilter}
               label="Klasa energetyczna:"
               options={energyClassOptions}
             />
-            {/* <Filter
+            <Filter
               state={capacityFilter}
               setState={setCapacityFilter}
               label="Pojemność:"
               options={capacityOptions}
-            /> */}
+            />
           </div>
           <p className="mt-[10px]">
             Liczba wyników: {filteredAndSortedItems.length}{' '}
@@ -164,18 +170,6 @@ function App() {
           <div className=" py-6 flex flex-col items-center">
             {items.length > 0 && (
               <div className="flex flex-wrap gap-4 mb-[20px] justify-center lg:justify-start">
-                {/* {filteredAndSortedItems
-                  .slice(0, showAllItems ? undefined : itemsToShowInitially)
-                  .map((item) => (
-                    <Card
-                      {...item}
-                      key={item.sku}
-                      onClick={() =>
-                        handleCardSelection(item.sku, setCardSelections)
-                      }
-                      selected={cardSelections[item.sku]}
-                    />
-                  ))} */}
                 {filteredAndSortedItems
                   .slice(0, showAllItems ? undefined : itemsToShowInitially)
                   .map((item) => (
@@ -196,6 +190,7 @@ function App() {
                   ))}
               </div>
             )}
+            {isLoading && <p>loading...</p>}
             {!showAllItems &&
               filteredAndSortedItems.length > itemsToShowInitially && (
                 <button
