@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import jsonData from './data.json'
 import Card from './components/Card'
 import Search from './components/Search'
 import BlueArrow from './assets/blue-arrow.svg'
 import Filter from './components/Filter'
-import { SORT_BY_OPTIONS } from './utils/constants'
-import { handleCardSelection, extractOptions, generateUrl } from './utils/utils'
-import { Item, FetchError } from './types/types'
-import { PRODUCT_SKU, ITEMS_TO_SHOW } from './utils/constants'
-import { RotatingLines } from 'react-loader-spinner'
+import { sortByOptions } from './utils/constants'
+import { handleCardSelection } from './utils/utils'
+import { Item } from './types/types'
 
 function App() {
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState(jsonData.washingMachines)
   const [searchTerm, setSearchTerm] = useState<string>('')
   const [sortBy, setSortBy] = useState<string>('Popularność')
   const [energyClassFilter, setEnergyClassFilter] =
@@ -23,107 +22,67 @@ function App() {
   const [cardSelections, setCardSelections] = useState<Record<string, boolean>>(
     {},
   )
-
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | undefined>(undefined)
-
-  useEffect(() => {
-    const url = generateUrl(PRODUCT_SKU)
-    const getData = async () => {
-      try {
-        const response = await fetch(url)
-        if (!response.ok)
-          throw new Error('Something wrong happened with HTTP request')
-        const data = await response.json()
-        const { productList } = data.response.resultData
-
-        setItems(productList)
-      } catch (err) {
-        if (err instanceof FetchError) {
-          setError(err.message)
-        } else {
-          setError('An unexpected error occurred.')
-        }
-
-        setItems([])
-        setIsLoading(false)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    getData()
-  }, [])
   const [showAllItems, setShowAllItems] = useState<boolean>(false)
 
-  const filteredAndSortedItems = items
-    .filter((item: Item) => {
-      const matchesSearchTerm = item.modelList[0].displayName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())
+  const itemsToShowInitially = 6
 
-      const matchesEnergyClass =
-        energyClassFilter === 'Pokaż wszystkie' ||
-        item.modelList[0].energyLabelGrade === energyClassFilter
+  const sortedItems = [...items].sort((a: Item, b: Item) => {
+    if (sortBy === 'Cena rosnąco') {
+      return a.price - b.price
+    } else if (sortBy === 'Cena malejąco') {
+      return b.price - a.price
+    } else if (sortBy === 'Popularność') {
+      return b.popularity - a.popularity
+    }
+  })
 
-      const matchesCapacity =
-        capacityFilter === 'Pokaż wszystkie' ||
-        item.chipOptions[1]?.optionList[0]?.optionCode === capacityFilter
+  const filteredAndSortedItems = sortedItems.filter((item) => {
+    const matchesSearchTerm = item.name.toLowerCase().includes(searchTerm)
 
-      const matchesFunctions =
-        functionsFilter === 'Pokaż wszystkie' ||
-        extractOptions(item.modelList[0].keySummary).some((func) =>
-          func.toLocaleLowerCase().includes(functionsFilter.toLowerCase()),
-        )
+    const matchesEnergyClass =
+      energyClassFilter === 'Pokaż wszystkie' ||
+      item.energyClass === energyClassFilter
 
-      return (
-        matchesSearchTerm &&
-        matchesEnergyClass &&
-        matchesCapacity &&
-        matchesFunctions
+    const matchesCapacity =
+      capacityFilter === 'Pokaż wszystkie' ||
+      item.capacity.toString() === capacityFilter
+
+    const matchesFunctions =
+      functionsFilter === 'Pokaż wszystkie' ||
+      item.productFunctions.some((func) =>
+        func.toLocaleLowerCase().includes(functionsFilter.toLowerCase()),
       )
-    })
-    .sort((a: Item, b: Item) => {
-      if (sortBy === 'Cena rosnąco') {
-        return +a.modelList[0].price - +b.modelList[0].price
-      } else if (sortBy === 'Cena malejąco') {
-        return +b.modelList[0].price - +a.modelList[0].price
-      } else if (sortBy === 'Popularność') {
-        return +b.modelList[0].ratings - +a.modelList[0].ratings
-      }
-      return 0
-    })
+
+    return (
+      matchesSearchTerm &&
+      matchesEnergyClass &&
+      matchesCapacity &&
+      matchesFunctions
+    )
+  })
 
   // Generate energy class options based on filtered data
   const energyClassOptions = [
     'Pokaż wszystkie',
     ...new Set(
-      filteredAndSortedItems.map(
-        (item: Item) => item.modelList[0].energyLabelGrade,
-      ),
+      filteredAndSortedItems.map((item) => item.energyClass.toUpperCase()),
     ),
   ]
 
   // Generate capacity options based on filtered data
   const capacityOptions = [
     'Pokaż wszystkie',
-    ...new Set(
-      filteredAndSortedItems.map(
-        (item: Item) => item.chipOptions[1]?.optionList[0]?.optionCode,
-      ),
-    ),
+    ...new Set(filteredAndSortedItems.map((item) => item.capacity.toString())),
   ]
 
   // Generate product functions options based on filtered data
   const functionsOptions = [
     'Pokaż wszystkie',
-    ...new Set(
-      filteredAndSortedItems.flatMap((item: Item) =>
-        extractOptions(item.modelList[0].keySummary),
-      ),
-    ),
+    ...new Set(filteredAndSortedItems.flatMap((item) => item.productFunctions)),
   ]
 
   useEffect(() => {
+    // Reset  filters when items or searchTerm change
     setEnergyClassFilter('Pokaż wszystkie')
     setCapacityFilter('Pokaż wszystkie')
     setFunctionsFilter('Pokaż wszystkie')
@@ -146,7 +105,7 @@ function App() {
               state={sortBy}
               setState={setSortBy}
               label="Sortuj po:"
-              options={SORT_BY_OPTIONS}
+              options={sortByOptions}
             />
             <Filter
               state={functionsFilter}
@@ -174,41 +133,23 @@ function App() {
 
         <main>
           <div className=" py-6 flex flex-col items-center">
-            {filteredAndSortedItems.length > 0 ? (
+            {items.length > 0 && (
               <div className="flex flex-wrap gap-4 mb-[20px] justify-center lg:justify-start">
                 {filteredAndSortedItems
-                  .slice(0, showAllItems ? undefined : ITEMS_TO_SHOW)
-                  .map((item: Item) => (
+                  .slice(0, showAllItems ? undefined : itemsToShowInitially)
+                  .map((item) => (
                     <Card
                       {...item}
-                      key={item.familyId}
-                      name={item.modelList[0].displayName}
-                      energyClass={item.modelList[0].energyLabelGrade}
-                      img={item.modelList[0].thumbUrl}
-                      price={item.modelList[0].price}
-                      capacity={item?.chipOptions[1]?.optionList[0]?.optionCode}
+                      key={item.sku}
                       onClick={() =>
-                        handleCardSelection(item.familyId, setCardSelections)
+                        handleCardSelection(item.sku, setCardSelections)
                       }
-                      selected={cardSelections[item.familyId]}
-                      productFunctions={item.modelList[0].keySummary}
+                      selected={cardSelections[item.sku]}
                     />
                   ))}
               </div>
-            ) : (
-              <h2>Sorry, there is no results</h2>
             )}
-            {isLoading && (
-              <RotatingLines
-                strokeColor="grey"
-                strokeWidth="5"
-                animationDuration="0.75"
-                width="96"
-                visible={true}
-              />
-            )}
-            {error && <p>Something went wrong!</p>}
-            {!showAllItems && filteredAndSortedItems.length > ITEMS_TO_SHOW && (
+            {!showAllItems && (
               <button
                 className="mb-[54px] text-custom-text-blue font-bold flex items-center gap-[9px]"
                 onClick={handleShowMore}>
